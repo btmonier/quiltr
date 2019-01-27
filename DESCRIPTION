@@ -1,0 +1,14 @@
+Package: quiltr
+Title: Polygon Generation
+Version: 0.0.1
+Authors@R: person(
+    give = "Brandon",
+    famil = "Monier",
+    email = "brandon.monier@gmail.com",
+    role = c("aut", "cre"))
+Description: This package is used to create randomized, tesselation-based 
+    patterns using isoceles right triangles. Pattern developments were inspired 
+    by quilting designs.
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true

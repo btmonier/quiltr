@@ -1,0 +1,2 @@
+# quiltr
+Polygon pattern generation.

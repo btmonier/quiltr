@@ -1,157 +1,150 @@
-# Title New polygon generation scheme (WIP)
-
-
-# === Functions (WIP) ===============================================
-
-## Random color tesselation object - returned as list
-quiltr <- function(x, y, ...) {
+#' @title Pattern generator
+#'
+#' @description This function generates a pattern of isoceles right triangles
+#'    of random colors. Patterns of initial triangle "seed" are then cloned
+#'    and rotated based on symmetrical patterns.
+#'
+#' @param x The number of triangles for the seed pattern in the x direction.
+#' @param y The number of triangles for the seed pattern in the y direction.
+#' @param col A vector of colors for the pattern.
+#' @param ... Additional parameters to be passed.
+#'
+#' @return A list of polygon metadata
+#'
+#' @examples
+#' # Return a quiltr object
+#' qds <- quiltr()
+#'
+#' # Plot the object
+#' qds <- quiltr()
+#' plot(qds)
+#'
+#' @export
+quiltr <- function(x = 3,
+                   y = 3,
+                   col = c("#AACBFF", "#E0E0E0"),
+                   ...) {
     ls_tri <- lapply(seq(0, y - 1), function(j) {
         lapply(seq(0, x - 1), function(i) {
             tri1 = list(
                 x = c(0, 0, 1) + i,
                 y = c(0, 1, 1) + j,
                 color = sample(
-                    x = c(col1, col2),
-                    size = 1,
-                    prob = c(0.3, 0.7)
+                    x = col,
+                    size = 1
                 )
             )
             tri2 = list(
                 x = c(0, 1, 1) + i,
                 y = c(0, 0, 1) + j,
                 color = sample(
-                    x = c(col1, col2),
-                    size = 1,
-                    prob = c(0.7, 0.3)
+                    x = col,
+                    size = 1
                 )
             )
             return(list(tri1 = tri1, tri2 = tri2))
         })
     })
     ls_tri <- unlist(ls_tri, recursive = FALSE)
-    return(ls_tri)
-}
 
-col1 <- "lightblue"
-col2 <- "lightyellow"
-
-
-
-# === Workflow ======================================================
-
-## Parameters
-x   <- 5
-y   <- 5
-tri <- tri_prime(x, y)
-
-## Graphics
-par(mar = c(0, 0, 0, 0), pty = "s", bg = NA)
-plot.new()
-plot.window(
-    xlim = c(-x, x),
-    ylim = c(-y, y),
-    xaxs = "i",
-    yaxs = "i",
-    bg = "white"
-)
-
-for (i in seq_len(x * y)) {
-    for (j in seq_len(2)) {
-        polygon(
-            x = tri[[i]][[j]]$x,
-            y = tri[[i]][[j]]$y,
-            border = NA,
-            col = tri[[i]][[j]]$color
-        )
-        polygon(
-            x = tri[[i]][[j]]$y,
-            y = -tri[[i]][[j]]$x,
-            col = tri[[i]][[j]]$color,
-            border = NA
-        )
-        polygon(
-            x = -tri[[i]][[j]]$x,
-            y = -tri[[i]][[j]]$y,
-            col = tri[[i]][[j]]$color,
-            border = NA
-        )
-        polygon(
-            x = -tri[[i]][[j]]$y,
-            y = tri[[i]][[j]]$x,
-            col = tri[[i]][[j]]$color,
-            border = NA
-        )
-    }
+    structure(
+        ls_tri,
+        class = "quiltr",
+        x = x,
+        y = y,
+        col = col
+    )
 }
 
 
+#' @param sym Symmetry type. Choose from \code{rotate} or \code{reflect}.
+#'
+#' @importFrom graphics par plot.new plot.window polygon
+#' @importFrom grDevices rgb
+#'
+#' @export
+plot.quiltr <- function(x, sym = c("rotate", "reflect"), ...) {
+    sym <- match.arg(sym)
+    tri <- x
+    x_dim   <- attr(x, "x")
+    y_dim   <- attr(x, "y")
+
+    graphics::par(mar = c(0, 0, 0, 0), pty = "s", bg = NA)
+    graphics::plot.new()
+    graphics::plot.window(
+        xlim = c(-x_dim, x_dim),
+        ylim = c(-y_dim, y_dim),
+        xaxs = "i",
+        yaxs = "i",
+        bg = "white"
+    )
+
+    switch(
+        EXPR = sym,
+        rotate = for (i in seq_len(x_dim * y_dim)) {
+            for (j in seq_len(2)) {
+                graphics::polygon(
+                    x = tri[[i]][[j]]$x,
+                    y = tri[[i]][[j]]$y,
+                    border = NA,
+                    col = tri[[i]][[j]]$color
+                )
+                graphics::polygon(
+                    x = tri[[i]][[j]]$y,
+                    y = -tri[[i]][[j]]$x,
+                    col = tri[[i]][[j]]$color,
+                    border = NA
+                )
+                graphics::polygon(
+                    x = -tri[[i]][[j]]$x,
+                    y = -tri[[i]][[j]]$y,
+                    col = tri[[i]][[j]]$color,
+                    border = NA
+                )
+                graphics::polygon(
+                    x = -tri[[i]][[j]]$y,
+                    y = tri[[i]][[j]]$x,
+                    col = tri[[i]][[j]]$color,
+                    border = NA
+                )
+            }
+        },
+        reflect = for (i in seq_len(x_dim * y_dim)) {
+            for (j in seq_len(2)) {
+                graphics::polygon(
+                    x = tri[[i]][[j]]$x,
+                    y = tri[[i]][[j]]$y,
+                    border = NA,
+                    col = tri[[i]][[j]]$color
+                )
+                graphics::polygon(
+                    x = tri[[i]][[j]]$x,
+                    y = -tri[[i]][[j]]$y,
+                    col = tri[[i]][[j]]$color,
+                    border = NA
+                )
+                graphics::polygon(
+                    x = -tri[[i]][[j]]$x,
+                    y = -tri[[i]][[j]]$y,
+                    col = tri[[i]][[j]]$color,
+                    border = NA
+                )
+                graphics::polygon(
+                    x = -tri[[i]][[j]]$x,
+                    y = tri[[i]][[j]]$y,
+                    col = tri[[i]][[j]]$color,
+                    border = NA
+                )
+            }
+        }
+    )
+}
 
 
-# for (i in seq_len(x * y)) {
-#     polygon(
-#         x = tri1[[i]]$x,
-#         y = tri1[[i]]$y,
-#         col = as.vector(t(col1))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = tri1[[i]]$x,
-#         y = -tri1[[i]]$y,
-#         col = as.vector(t(col1))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = -tri1[[i]]$x,
-#         y = -tri1[[i]]$y,
-#         col = as.vector(t(col1))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = -tri1[[i]]$x,
-#         y = tri1[[i]]$y,
-#         col = as.vector(t(col1))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = tri2[[i]]$x,
-#         y = tri2[[i]]$y,
-#         col = as.vector(t(col2))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = tri2[[i]]$x,
-#         y = -tri2[[i]]$y,
-#         col = as.vector(t(col2))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = -tri2[[i]]$x,
-#         y = -tri2[[i]]$y,
-#         col = as.vector(t(col2))[i],
-#         border = NA
-#     )
-#     polygon(
-#         x = -tri2[[i]]$x,
-#         y = tri2[[i]]$y,
-#         col = as.vector(t(col2))[i],
-#         border = NA
-#     )
-# }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#' @export
+summary.quiltr <- function(object, ...) {
+    cat("A quiltr data set:\n")
+    cat("  Class.....", class(object),        "\n")
+    cat("  Dim (x)...", attr(object, "x"),    "\n")
+    cat("  Dim (y)...", attr(object, "y"),    "\n")
+}

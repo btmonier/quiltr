@@ -7,7 +7,8 @@
 #' @param x The number of triangles for the seed pattern in the x direction.
 #' @param y The number of triangles for the seed pattern in the y direction.
 #' @param col A vector of colors for the pattern.
-#' @param ... Additional parameters to be passed.
+#' @param ... Additional parameters to be passed. For example, probability
+#'    weights can be applied here in vector form.
 #'
 #' @return A list of polygon metadata
 #'
@@ -18,6 +19,15 @@
 #' # Plot the object
 #' qds <- quiltr()
 #' plot(qds)
+#'
+#' # Plot with unequal color probabilities
+#' qds <- quiltr(
+#'     x    = 10,
+#'     y    = 10,
+#'     col  = c("#DCD0C0", "#C0B283", "#F4F4F4"),
+#'     prob = c(0.2, 0.7, 0.1)
+#' )
+#' plot(qds, sym = "reflect")
 #'
 #' @export
 quiltr <- function(x = 3,
@@ -31,7 +41,9 @@ quiltr <- function(x = 3,
                 y = c(0, 1, 1) + j,
                 color = sample(
                     x = col,
-                    size = 1
+                    size = 1,
+                    replace = FALSE,
+                    ...
                 )
             )
             tri2 = list(
@@ -39,7 +51,9 @@ quiltr <- function(x = 3,
                 y = c(0, 0, 1) + j,
                 color = sample(
                     x = col,
-                    size = 1
+                    size = 1,
+                    replace = FALSE,
+                    ...
                 )
             )
             return(list(tri1 = tri1, tri2 = tri2))
@@ -68,6 +82,9 @@ plot.quiltr <- function(x, sym = c("rotate", "reflect"), ...) {
     tri <- x
     x_dim   <- attr(x, "x")
     y_dim   <- attr(x, "y")
+
+    old <- graphics::par(pty = "m", mar = c(3, 1, 3, 1))
+    on.exit(par(old))
 
     graphics::par(mar = c(0, 0, 0, 0), pty = "s", bg = NA)
     graphics::plot.new()

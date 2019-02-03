@@ -13,7 +13,8 @@ quiltr(x = 3, y = 3, col = c("#AACBFF", "#E0E0E0"), ...)
 
 \item{col}{A vector of colors for the pattern.}
 
-\item{...}{Additional parameters to be passed.}
+\item{...}{Additional parameters to be passed. For example, probability
+weights can be applied here in vector form.}
 }
 \value{
 A list of polygon metadata
@@ -30,5 +31,14 @@ qds <- quiltr()
 # Plot the object
 qds <- quiltr()
 plot(qds)
+
+# Plot with unequal color probabilities
+qds <- quiltr(
+    x    = 10,
+    y    = 10,
+    col  = c("#DCD0C0", "#C0B283", "#F4F4F4"),
+    prob = c(0.2, 0.7, 0.1)
+)
+plot(qds, sym = "reflect")
 
 }

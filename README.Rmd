@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
 
 # quiltr <img src="man/figures/quiltr_logo.svg" align="right" height="120"/>
 
+[![Build Status](https://travis-ci.org/btmonier/croix.svg?branch=master)](https://travis-ci.org/btmonier/quiltr)
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
 ## Overview
 This package is used to create randomized, tesselation-based patterns using 
 isoceles right triangles. Pattern developments were inspired by quilting 

@@ -1,6 +1,10 @@
 
 # quiltr <img src="man/figures/quiltr_logo.svg" align="right" height="120"/>
 
+[![Build
+Status](https://travis-ci.org/btmonier/croix.svg?branch=master)](https://travis-ci.org/btmonier/quiltr)
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
 ## Overview
 
 This package is used to create randomized, tesselation-based patterns
@@ -35,8 +39,8 @@ print(qDS)
 
 summary(qDS)
 #> Color usage:
-#>    #AACBFF [==========---------------] (28) 
-#>    #E0E0E0 [===============----------] (44) 
+#>    #AACBFF [===============----------] (44) 
+#>    #E0E0E0 [==========---------------] (28) 
 #> ---
 #> Total units: 72
 ```

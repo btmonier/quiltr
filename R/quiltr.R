@@ -71,7 +71,11 @@ quiltr <- function(x = 3,
 }
 
 
+#' @title Plot method for quiltr object class
+#'
+#' @param x A \code{quiltr} object class.
 #' @param sym Symmetry type. Choose from \code{rotate} or \code{reflect}.
+#' @param ... Additional graphical parameters to be passed.
 #'
 #' @importFrom graphics par plot.new plot.window polygon
 #' @importFrom grDevices rgb
@@ -158,10 +162,26 @@ plot.quiltr <- function(x, sym = c("rotate", "reflect"), ...) {
 }
 
 
+#' @title Print method for quiltr object class
+#'
+#' @param x A \code{quiltr} object class.
+#' @param ... Additional parameters to be passed.
+#'
+#' @export
+print.quiltr <- function(x, ...) {
+    cat("A quiltr data set:\n")
+    cat("  Class.....", class(x),     "\n")
+    cat("  Dim (x)...", attr(x, "x"), "\n")
+    cat("  Dim (y)...", attr(x, "y"), "\n")
+}
+
+
+#' @title Summary method for \code{quiltr} object class
+#'
+#' @param object A \code{quiltr} object class.
+#' @param ... Additional parameters to be passed.
+#'
 #' @export
 summary.quiltr <- function(object, ...) {
-    cat("A quiltr data set:\n")
-    cat("  Class.....", class(object),        "\n")
-    cat("  Dim (x)...", attr(object, "x"),    "\n")
-    cat("  Dim (y)...", attr(object, "y"),    "\n")
+    colorBars(object)
 }

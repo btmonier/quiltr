@@ -1,6 +1,6 @@
 Package: quiltr
 Title: Polygon Generation
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: person(
     give = "Brandon",
     famil = "Monier",

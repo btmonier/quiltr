@@ -37,6 +37,8 @@ qDS <- quiltr::quiltr()
 With this object, basic S3 methodologies can be implemented:
 
 ```{r}
+print(qDS)
+
 summary(qDS)
 ```
 

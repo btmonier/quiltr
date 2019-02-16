@@ -27,11 +27,18 @@ qDS <- quiltr::quiltr()
 With this object, basic S3 methodologies can be implemented:
 
 ``` r
-summary(qDS)
+print(qDS)
 #> A quiltr data set:
 #>   Class..... quiltr 
 #>   Dim (x)... 3 
 #>   Dim (y)... 3
+
+summary(qDS)
+#> Color usage:
+#>    #AACBFF [==========---------------] (28) 
+#>    #E0E0E0 [===============----------] (44) 
+#> ---
+#> Total units: 72
 ```
 
 Probably the most important method to use would be `plot()`:
@@ -60,4 +67,4 @@ plot(qds, sym = "reflect")
 
 -----
 
-*Last updated:* 2019-02-03
+*Last updated:* 2019-02-16
